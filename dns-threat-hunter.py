@@ -18,15 +18,15 @@ THREAT_INTEL = {
     "keywords": {'proxy', 'unblock', 'bypass', 'games', 'mathway', 'math', 'study', 'free'},
     "cloud_hosts": {
         'vercel.app', 'netlify.app', 'onrender.com', 'herokuapp.com', 
-        'github.io', 'replit.dev', 'repl.co', 'firebaseapp.com', 'web.app', 'it.com'
+        'github.io', 'replit.dev', 'repl.co', 'replit.app', 'firebaseapp.com', 'web.app', 'it.com'
     },
     "suspicious_tlds": {'.xyz', '.top', '.site', '.pw', '.cc', '.tk', '.ml'},
     "whitelist_domains": {
         'apple.com', 'icloud.com', 'aaplimg.com', 'akadns.net', 'safebrowsing.apple', 'cdn-apple.com', 'apple-dns.net', # Apple Ecosystem
-        'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', # Microsoft Ecosystem
-        'google.com', 'firebaseio.com', 'googleusercontent.com', # Google Ecosystem
-        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'amazonaws.com', 'fastly-edge.com', 'fastly.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', # Major CDNs, AWS, & App Gateways
-        'playwire.com', 'intergient.com', 'getepic.com', 'duolingo.com', 'prodigygame.com', 'savvasrealize.com', 'id5-sync.com', 'eu-1-id5-sync.com', 'wixmp.com', 'youversionapi.com', 'sharethrough.com', 'grafana.net', 'intellimizeio.com', # Ad/Tracker & Edu networks
+        'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', 'spov-msedge.net', 'wac-msedge.net', 'wac-dc-msedge.net', 'fb-t-msedge.net', 'skype.com', 'cloud.microsoft', 'signalr.net', # Microsoft Ecosystem
+        'google.com', 'firebaseio.com', 'googleusercontent.com', 'doodles.goog', 'gstatic.com', 'googleapis.com', 'run.app', # Google Ecosystem
+        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'amazon.dev', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'akamaihd.net', 'amazonaws.com', 'awsglobalaccelerator.com', 'fastly-edge.com', 'fastly.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', 'capcutstatic.com', 'tiktokcdn-us.com', 'tiktokpangle-b.us', 'tiktokpangle-cdn-us.com', 'b-cdn.net', 'cdn77.org', 'brightcovecdn.com', # Major CDNs, AWS, & App Gateways
+        'playwire.com', 'intergient.com', 'getepic.com', 'duolingo.com', 'prodigygame.com', 'savvasrealize.com', 'id5-sync.com', 'eu-1-id5-sync.com', 'wixmp.com', 'youversionapi.com', 'sharethrough.com', 'grafana.net', 'grafana-ops.net', 'intellimizeio.com', 'canva.com', 'canva-apps.com', 'instructure.com', 'inscloudgate.net', 'm-w.com', 'merriam-webster.com', 'perchance.org', 'editmysite.com', 'optimizely.com', 'study.com', 'theastudy.com', 'apptegy.net', 'datadoghq.com', 'indexww.com', 'permutive.app', 'optable.co', 'smaato.net', 'sendgrid.net', 'mathtag.com', 'igodigital.com', 'shazamcloud.com', 'wpeproxy.com', 's-onetag.com', 'aniview.com', 'bidswitch.net', 'qualtrics.com', 'ipredictive.com', 'openwebmp.com', 'rfihub.com', 'arcpublishing.com', 'crowdin.net', 'mktoresp.com', 'swymrelay.com', 'oath.cloud', 'ltmsphrcl.net', 'manager-magazin.de', 'tvtropes.org', # Ad/Tracker & Edu networks
         'arpa' # Local reverse DNS noise
     }
 }
