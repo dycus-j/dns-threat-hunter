@@ -55,18 +55,6 @@ def extract_standard_fields(row: Dict[str, str]) -> Tuple[str, str]:
 # ==========================================
 # 3. THREAT DETECTION ENGINE
 # ==========================================
-# def batch_analyze_with_llm(domains: List[str]) -> Dict[str, str]:
-#     """
-#     [FUTURE INTEGRATION]: Gemini API Batch Processing.
-#     Takes a list of suspicious domains and sends ONE bulk request to the LLM.
-#     Returns a dictionary of {domain: "AI Risk Reason"} for those flagged.
-#     """
-#     if not domains:
-#         return {}
-#        
-#     # TODO: Implement Gemini API REST call here.
-#     # Example Prompt: "Analyze this list of domains and return a JSON of only the malicious proxies: {domains}"
-#     return {}
 
 def detect_domain_risks(domain: str) -> List[str]:
     """Analyzes a domain against static risk vectors ONLY (Fast execution)."""
@@ -199,20 +187,6 @@ def analyze_traffic_parallel(csv_filepath: str) -> None:
                     if dom not in flagged_domains:
                         flagged_domains[dom] = risks
 
-        # --- [FUTURE] AI BATCH PROCESSING PHASE ---
-        # We only send domains that looked weird (e.g., High Entropy) to the AI for verification
-        # domains_for_ai = [dom for dom, risks in flagged_domains.items() if "High Entropy (Auto-generated)" in risks or "Free Cloud/Dev Host" in risks]
-        # 
-        # if domains_for_ai:
-        #     logging.info(f"Sending {len(domains_for_ai)} suspicious domains to Gemini AI for batch analysis...")
-        #     ai_results = batch_analyze_with_llm(domains_for_ai)
-        #     
-        #     # Merge the AI's findings back into our main report
-        #     for dom, ai_flag in ai_results.items():
-        #         if dom in flagged_domains:
-        #             flagged_domains[dom].append(f"AI Flag: {ai_flag}")
-
-        # --- FINAL REPORTING ---
         generate_report(total_requests, blocked_count, allowed_count, flagged_domains, domain_counts)
 
     except Exception as e:
