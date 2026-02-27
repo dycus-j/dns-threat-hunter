@@ -32,6 +32,12 @@ Modular Design: Built with strict Separation of Concerns (SoC). The Threat Intel
 
 Resilient Parsing: Automatically normalizes column headers to account for vendor changes in log export formatting.
 
+🗺️ Future Roadmap (v2.0)
+
+LLM / AI Integration: Implement a batch-processing REST API call to Google's Gemini LLM. Instead of querying the AI for every log entry, the script will bundle high-entropy/unknown domains into a single JSON payload for AI-driven heuristic analysis to catch zero-day proxy patterns.
+
+Automated Threat Feeds: Integrate dynamic pulls from open-source threat intelligence feeds (e.g., AbuseIPDB) to replace the static dictionary.
+
 🛠️ Usage
 
 Export your DNS/Web Filter logs as a .csv.
@@ -39,6 +45,8 @@ Export your DNS/Web Filter logs as a .csv.
 Place the .csv in the same directory as the script (or update the file path in the __main__ block).
 
 Run the analyzer:
+
+<!-- end list -->
 
 python dns_threat_hunter.py
 
@@ -51,4 +59,5 @@ James Dycus
 
 IT Support Specialist & Network Technician
 
-# dns-threat-hunter
+LinkedIn
+
