@@ -1,11 +1,12 @@
 import csv
 import re
+import time
 import logging
 import itertools
 import concurrent.futures
 from collections import Counter
 from pathlib import Path
-from typing import Dict, List, Iterator, Tuple, Optional
+from typing import Dict, List, Iterator, Tuple
 
 # Configure basic logging for debugging and runtime info
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -19,7 +20,15 @@ THREAT_INTEL = {
         'vercel.app', 'netlify.app', 'onrender.com', 'herokuapp.com', 
         'github.io', 'replit.dev', 'repl.co', 'firebaseapp.com', 'web.app', 'it.com'
     },
-    "suspicious_tlds": {'.xyz', '.top', '.site', '.pw', '.cc', '.tk', '.ml'}
+    "suspicious_tlds": {'.xyz', '.top', '.site', '.pw', '.cc', '.tk', '.ml'},
+    "whitelist_domains": {
+        'apple.com', 'icloud.com', 'aaplimg.com', 'akadns.net', 'safebrowsing.apple', 'cdn-apple.com', 'apple-dns.net', # Apple Ecosystem
+        'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', # Microsoft Ecosystem
+        'google.com', 'firebaseio.com', 'googleusercontent.com', # Google Ecosystem
+        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'amazonaws.com', 'fastly-edge.com', 'fastly.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', # Major CDNs, AWS, & App Gateways
+        'playwire.com', 'intergient.com', 'getepic.com', 'duolingo.com', 'prodigygame.com', 'savvasrealize.com', 'id5-sync.com', 'eu-1-id5-sync.com', 'wixmp.com', 'youversionapi.com', 'sharethrough.com', 'grafana.net', 'intellimizeio.com', # Ad/Tracker & Edu networks
+        'arpa' # Local reverse DNS noise
+    }
 }
 
 CHUNK_SIZE = 10000 
@@ -32,9 +41,7 @@ def extract_standard_fields(row: Dict[str, str]) -> Tuple[str, str]:
     Normalizes log structures from different vendors (Mosyle, Cisco, Pi-Hole, etc.)
     Returns a standardized tuple: (domain, action)
     """
-    # Potential column names for the URL/Domain
     domain_keys = ['domain', 'url', 'destination', 'query']
-    # Potential column names for the Allow/Block status
     action_keys = ['action', 'status', 'policy', 'result']
     
     domain = ""
@@ -55,19 +62,30 @@ def extract_standard_fields(row: Dict[str, str]) -> Tuple[str, str]:
 # ==========================================
 # 3. THREAT DETECTION ENGINE
 # ==========================================
-
 def detect_domain_risks(domain: str) -> List[str]:
     """Analyzes a domain against static risk vectors ONLY (Fast execution)."""
+    
+    # --- 1. WHITELIST CHECK ---
+    # Strict matching to prevent badapple.com from matching apple.com
+    if any(domain == wl or domain.endswith('.' + wl) for wl in THREAT_INTEL["whitelist_domains"]):
+        return []
+
     risks = []
 
+    # --- 2. STATIC HEURISTICS ---
     if re.match(r'^\d{1,3}(\.\d{1,3}){3}$', domain):
         risks.append("Direct IP Access")
-    if any(domain.endswith(host) for host in THREAT_INTEL["cloud_hosts"]):
+        
+    # Strict matching to prevent snapkit.com from matching it.com
+    if any(domain == host or domain.endswith('.' + host) for host in THREAT_INTEL["cloud_hosts"]):
         risks.append("Free Cloud/Dev Host")
+        
     if any(word in domain for word in THREAT_INTEL["keywords"]):
         risks.append("Suspicious Keyword")
+        
     if any(domain.endswith(tld) for tld in THREAT_INTEL["suspicious_tlds"]):
         risks.append("Risky TLD")
+        
     if domain.count('-') > 2 or sum(c.isdigit() for c in domain) > 5:
         risks.append("High Entropy (Auto-generated)")
 
@@ -87,19 +105,19 @@ def process_chunk(chunk: List[Dict[str, str]]) -> Tuple[int, int, int, Dict[str,
     for row in chunk:
         local_total += 1
         
-        # Normalize the data regardless of the firewall vendor
         domain, action = extract_standard_fields(row)
 
         if not domain or not action:
             continue
 
-        # Cisco/Meraki often use 'DENIED', Mosyle uses 'BLOCK'
-        if action in ('BLOCK', 'DENIED', 'BLOCKED'):
+        # Expanded vocabulary to catch all vendor variations of blocked traffic
+        if action in ('BLOCK', 'BLOCKED', 'DENY', 'DENIED', 'DROP', 'DROPPED', 'REJECT', 'REJECTED', 'PREVENT', 'PREVENTED'):
             local_blocked += 1
-        elif action in ('ALLOW', 'ALLOWED', 'PASSED'):
+            
+        # Expanded vocabulary to catch all vendor variations of allowed traffic
+        elif action in ('ALLOW', 'ALLOWED', 'PASS', 'PASSED', 'PERMIT', 'PERMITTED', 'SUCCESS'):
             local_allowed += 1
             
-            # Run the domain through the Static Threat Engine
             risks = detect_domain_risks(domain)
             
             if risks:
@@ -122,7 +140,6 @@ def yield_chunks(file_path: Path, chunk_size: int) -> Iterator[List[Dict[str, st
         if not reader.fieldnames:
             raise ValueError("CSV file is empty or missing headers.")
         
-        # Convert headers to lowercase to help the normalizer
         reader.fieldnames = [str(field).strip().lower() for field in reader.fieldnames]
         
         iterator = iter(reader)
@@ -135,14 +152,15 @@ def yield_chunks(file_path: Path, chunk_size: int) -> Iterator[List[Dict[str, st
 # ==========================================
 # 6. REPORTING
 # ==========================================
-def generate_report(total: int, blocked: int, allowed: int, flagged_domains: Dict[str, List[str]], domain_counts: Counter) -> None:
+def generate_report(total: int, blocked: int, allowed: int, flagged_domains: Dict[str, List[str]], domain_counts: Counter, elapsed_time: float) -> None:
     """Formats and prints the final analysis report."""
     print("\n" + "="*60)
-    print("🛡️  ENTERPRISE DNS THREAT SUMMARY (PARALLELIZED)")
+    print(" DNS THREAT HUNTER SUMMARY ")
     print("="*60)
     print(f"Total Requests Processed: {total:,}")
     print(f"Successfully Blocked:     {blocked:,}")
     print(f"Allowed Traffic:          {allowed:,}")
+    print(f"Execution Time:           {elapsed_time:.4f} seconds")
     print("-" * 60)
     
     print("\n🚨 FLAGGED ALLOWED TRAFFIC (REQUIRES REVIEW) 🚨")
@@ -164,6 +182,8 @@ def generate_report(total: int, blocked: int, allowed: int, flagged_domains: Dic
 def analyze_traffic_parallel(csv_filepath: str) -> None:
     path = Path(csv_filepath)
     logging.info(f"Starting parallel network analysis on {path.name}...")
+
+    start_time = time.time() # ⏱️ START THE CLOCK
 
     total_requests = 0
     blocked_count = 0
@@ -187,7 +207,10 @@ def analyze_traffic_parallel(csv_filepath: str) -> None:
                     if dom not in flagged_domains:
                         flagged_domains[dom] = risks
 
-        generate_report(total_requests, blocked_count, allowed_count, flagged_domains, domain_counts)
+        end_time = time.time() # ⏱️ STOP THE CLOCK
+        elapsed = end_time - start_time
+
+        generate_report(total_requests, blocked_count, allowed_count, flagged_domains, domain_counts, elapsed)
 
     except Exception as e:
         logging.error(f"Analysis failed during processing: {e}")
