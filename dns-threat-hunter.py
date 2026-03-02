@@ -1,6 +1,7 @@
 import csv
 import re
 import time
+import math
 import logging
 import itertools
 import concurrent.futures
@@ -21,32 +22,51 @@ THREAT_INTEL = {
     "cloud_hosts": {
         'vercel.app', 'netlify.app', 'onrender.com', 'herokuapp.com', 
         'github.io', 'replit.dev', 'repl.co', 'replit.app', 'firebaseapp.com', 'web.app', 'it.com',
-        'webnode.page', 'editmysite.com', 'trycloudflare.com'
+        'webnode.page', 'editmysite.com', 'trycloudflare.com', 'webnode.com'
     },
     "suspicious_tlds": {'.xyz', '.top', '.site', '.pw', '.cc', '.tk', '.ml'},
     
-    # Static Allowlist (v2.0 baseline for initial push)
+    # Static Allowlist (v2.2 Refined baseline)
     "allowlist": {
-        'apple.com', 'icloud.com', 'aaplimg.com', 'akadns.net', 'safebrowsing.apple', 'cdn-apple.com', 'apple-dns.net',
-        'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', 'spov-msedge.net', 'wac-msedge.net', 'wac-dc-msedge.net', 'fb-t-msedge.net', 'skype.com', 'cloud.microsoft', 'signalr.net',
-        'google.com', 'firebaseio.com', 'googleusercontent.com', 'doodles.goog', 'gstatic.com', 'googleapis.com', 'run.app', 
-        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'amazon.dev', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'akamaihd.net', 'amazonaws.com', 'awsglobalaccelerator.com', 'fastly-edge.com', 'fastly.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', 'capcutstatic.com', 'tiktokcdn-us.com', 'tiktokpangle-b.us', 'tiktokpangle-cdn-us.com', 'b-cdn.net', 'cdn77.org', 'brightcovecdn.com', 
-        'playwire.com', 'intergient.com', 'getepic.com', 'duolingo.com', 'prodigygame.com', 'savvasrealize.com', 'id5-sync.com', 'eu-1-id5-sync.com', 'wixmp.com', 'youversionapi.com', 'sharethrough.com', 'grafana.net', 'grafana-ops.net', 'intellimizeio.com', 'canva.com', 'canva-apps.com', 'instructure.com', 'inscloudgate.net', 'm-w.com', 'merriam-webster.com', 'perchance.org', 'editmysite.com', 'optimizely.com', 'study.com', 'theastudy.com', 'apptegy.net', 'datadoghq.com', 'browser-intake-us5-datadoghq.com', 'indexww.com', 'permutive.app', 'optable.co', 'smaato.net', 'sendgrid.net', 'mathtag.com', 'igodigital.com', 'shazamcloud.com', 'wpeproxy.com', 's-onetag.com', 'aniview.com', 'bidswitch.net', 'qualtrics.com', 'ipredictive.com', 'openwebmp.com', 'rfihub.com', 'arcpublishing.com', 'crowdin.net', 'mktoresp.com', 'swymrelay.com', 'oath.cloud', 'ltmsphrcl.net', 'manager-magazin.de', 'tvtropes.org',
-        'mathway.com', 'mathpapa.com', 'mathster.com', 'arpa' 
+        # Core Infrastructure
+        'apple.com', 'icloud.com', 'aaplimg.com', 'akadns.net', 'safebrowsing.apple', 'cdn-apple.com', 'apple-dns.net', 'icloud-content.com',
+        'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', 'spov-msedge.net', 'wac-msedge.net', 'wac-dc-msedge.net', 'fb-t-msedge.net', 'skype.com', 'cloud.microsoft', 'signalr.net', 'officeapps.live.com', 'msidentity.com', 'windows.net', 'microsoftonline.com', 'live.com', 'svc.ms', 'onecdn.static.microsoft', 'outlook.com', 'tm-azurefd.net',
+        'google.com', 'google', 'firebaseio.com', 'googleusercontent.com', 'doodles.goog', 'gstatic.com', 'googleapis.com', 'run.app', 'googletagservices.com', 'google-analytics.com', 'adtrafficquality.google', 'doubleclick.net',
+        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'amazon.dev', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'akamaihd.net', 'amazonaws.com', 'awsglobalaccelerator.com', 'fastly-edge.com', 'fastly.net', 'edgekey.net', 'akaquill.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', 'capcutstatic.com', 'tiktokcdn-us.com', 'tiktokpangle-b.us', 'tiktokpangle-cdn-us.com', 'b-cdn.net', 'cdn77.org', 'brightcovecdn.com', 
+        
+        # Operational Telemetry & Infrastructure (Suppressing high-entropy math noise)
+        'datadoghq.com', 'browser-intake-us5-datadoghq.com', 'browser-intake-datadoghq.com', 'datadoghq-browser-agent.com', 'grafana.net', 'grafana-ops.net', 'cloudflareinsights.com', 'kaltura.com', 'wixmp.com', 'app-analytics-services.com', 'shazamcloud.com', 'qualtrics.com', 'optable.co', 'permutive.app', 'id5-sync.com', 'ipredictive.com', 'bidswitch.net', '3lift.com', 'pubmatic.com', 'stackadapt.com', 'sharethrough.com', 'ltmsphrcl.net', 'newscorp.com', 'omnitagjs.com', 'liveintent.com', 'kueezrtb.com', 'oath.cloud', 'yahoo.com',
+
+        # Verified Instructional Platforms
+        'canva.com', 'canva-apps.com', 'instructure.com', 'inscloudgate.net', 'm-w.com', 'merriam-webster.com', 'duolingo.com', 'getepic.com', 'prodigygame.com', 'savvasrealize.com', 'apptegy.net', 'quizlet.com', 'youversionapi.com', 'biblegateway.com', 'creality.com',
+        
+        # High-Volume Ad-Tech (Silencing corporate telemetry noise)
+        'rubiconproject.com', 'ay.delivery', 'doubleverify.com', 'flashtalking.com', 'appsflyersdk.com', 'adthrive.com', 'raptive.com', 'webpushr.com', 'tremorhub.com', 'fuseplatform.net',
+        
+        # Internal / Local
+        'arpa', 'parkhurst.org'
     }
 }
 
 # ==========================================
-# 2. HEURISTIC DETECTION ENGINE
+# 2. SCIENTIFIC DETECTION ENGINE
 # ==========================================
+def calculate_shannon_entropy(data: str) -> float:
+    """
+    Calculates the Shannon Entropy of a string.
+    Measures the randomness/complexity. Higher scores (> 3.8) often indicate DGAs or proxies.
+    """
+    if not data: return 0.0
+    entropy = 0
+    for count in Counter(data).values():
+        p = count / len(data)
+        entropy -= p * math.log2(p)
+    return round(entropy, 2)
+
 def is_allowed(domain: str) -> bool:
-    """
-    Recursive subdomain lookup.
-    Example: If 'google.com' is in allowlist, 'api.dev.google.com' is allowed.
-    """
-    domain = domain.rstrip('.') # Handle FQDN trailing dots
+    """Recursive subdomain lookup."""
+    domain = domain.rstrip('.')
     parts = domain.split('.')
-    # Recursively check parent domains (O(1) lookup in Set)
     for i in range(len(parts)):
         test_domain = ".".join(parts[i:])
         if test_domain in THREAT_INTEL["allowlist"]:
@@ -55,38 +75,40 @@ def is_allowed(domain: str) -> bool:
 
 def detect_domain_risks(domain: str) -> List[str]:
     """
-    Priority-based Analysis (Heuristic Hierarchy):
+    Refined Heuristic Hierarchy:
     1. Behavior Indicators (Keywords/Cloud Hosts)
     2. Identity Verification (Recursive Allowlist)
-    3. Anomaly Heuristics (Entropy/TLDs)
+    3. Mathematical Heuristics (Shannon Entropy/TLDs)
     """
     risks = []
     
-    # 1. BEHAVIOR INDICATORS
+    # 1. BEHAVIOR INDICATORS (Check for unblocked hosts like webnode.page)
     if any(word in domain for word in THREAT_INTEL["keywords"]):
         risks.append("Suspicious Keyword")
     
-    # Cloud host check handles subdomains (e.g., test.replit.dev)
     is_cloud = any(domain == host or domain.endswith('.' + host) for host in THREAT_INTEL["cloud_hosts"])
     if is_cloud:
         risks.append("Free Cloud/Dev Host")
 
     # 2. ALLOWLIST GATE
     allowed = is_allowed(domain)
-    
-    # REFINEMENT: If whitelisted, we suppress noise UNLESS it's a cloud-host.
+    # REFINEMENT: Suppress noise on whitelisted domains UNLESS it's a cloud host.
     if allowed and not is_cloud:
         return []
 
-    # 3. HEURISTICS (Only for Non-Allowed or Cloud-Override traffic)
+    # 3. SCIENTIFIC HEURISTICS
     if not allowed:
         if re.match(r'^\d{1,3}(\.\d{1,3}){3}$', domain):
             risks.append("Direct IP Access")
         if any(domain.endswith(tld) for tld in THREAT_INTEL["suspicious_tlds"]):
             risks.append("Risky TLD")
-        # Flags auto-generated domains or long random strings
-        if domain.count('-') > 2 or sum(c.isdigit() for c in domain) > 5:
-            risks.append("High Entropy (Auto-generated)")
+        
+        # Shannon Entropy Check
+        entropy_score = calculate_shannon_entropy(domain)
+        if entropy_score > 3.8:
+            risks.append(f"High Entropy ({entropy_score})")
+        elif domain.count('-') > 2 or sum(c.isdigit() for c in domain) > 5:
+            risks.append("Suspicious Pattern")
 
     return risks
 
@@ -94,7 +116,6 @@ def detect_domain_risks(domain: str) -> List[str]:
 # 3. PARALLEL PROCESSING ENGINE
 # ==========================================
 def process_chunk(chunk: List[Dict[str, str]]) -> Tuple[int, int, int, Dict[str, List[str]], Counter]:
-    """Worker function for concurrent processing of log chunks."""
     l_total, l_blocked, l_allowed = 0, 0, 0
     l_flagged: Dict[str, List[str]] = {}
     l_counts = Counter()
@@ -112,7 +133,6 @@ def process_chunk(chunk: List[Dict[str, str]]) -> Tuple[int, int, int, Dict[str,
         elif any(term in action for term in ['ALLOW', 'PASS', 'PERMIT', 'SUCCESS']):
             l_allowed += 1
             
-            # Heuristic Review
             risks = detect_domain_risks(domain)
             if risks:
                 l_counts[domain] += 1
@@ -125,17 +145,14 @@ def process_chunk(chunk: List[Dict[str, str]]) -> Tuple[int, int, int, Dict[str,
 # 4. REPORTING & FILE GENERATION
 # ==========================================
 def generate_report(total, blocked, allowed, flagged, counts, elapsed):
-    """Generates a professional TXT report and outputs a console summary."""
     timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     report_file = f"threat_report_{timestamp}.txt"
-    
-    # Pivot: 2+ hits is a Recurring Pattern; 1 hit is Patient Zero
     ANOMALY_THRESHOLD = 2
 
     out = [
         f"\n",
         "="*60,
-        f"🛡️  DNS THREAT HUNTER v2.0 - HEURISTIC + RECURRING ANALYSIS",
+        f"🛡️  DNS THREAT HUNTER v2.2 - SCIENTIFIC ANALYSIS",
         "="*60,
         f"Audit Date:       {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         f"Total Logs:       {total:,}",
@@ -145,26 +162,29 @@ def generate_report(total, blocked, allowed, flagged, counts, elapsed):
         f"\n🚨 TOP RECURRING THREAT VECTORS (patterns with {ANOMALY_THRESHOLD}+ hits) 🚨\n"
     ]
     
-    # Section: High Volume (established patterns)
+    # Section: High Volume
     recurring = [d for d, c in counts.items() if c >= ANOMALY_THRESHOLD]
-    sorted_recurring = sorted(recurring, key=lambda x: counts[x], reverse=True)
-    
-    for d in sorted_recurring[:35]:
-        out.append(f"[Count: {counts[d]:4}] {d}")
-        out.append(f"           ↳ Risks: {', '.join(flagged[d])}")
+    if not recurring:
+        out.append("✅ No active recurring threats determined for this period.\n")
+    else:
+        sorted_recurring = sorted(recurring, key=lambda x: counts[x], reverse=True)
+        for d in sorted_recurring[:35]:
+            out.append(f"[Count: {counts[d]:4}] {d}")
+            out.append(f"           ↳ Risks: {', '.join(flagged[d])}")
 
-    # Section: The Long Tail (Anomaly Detection)
+    # Section: The Long Tail
     out.append(f"\n🔍 ANOMALY DETECTION (under {ANOMALY_THRESHOLD} hits - 'PATIENT ZERO' EVENTS) 🔍\n")
     anomalies = [d for d, c in counts.items() if c < ANOMALY_THRESHOLD]
-    sorted_anomalies = sorted(anomalies, key=lambda x: counts[x], reverse=True)
-    
-    for d in sorted_anomalies[:35]:
-        out.append(f"[Count: {counts[d]:4}] {d}")
-        out.append(f"           ↳ Risks: {', '.join(flagged[d])}")
+    if not anomalies:
+        out.append("✅ No unique network anomalies determined for this period.\n")
+    else:
+        sorted_anomalies = sorted(anomalies, key=lambda x: counts[x], reverse=True)
+        for d in sorted_anomalies[:35]:
+            out.append(f"[Count: {counts[d]:4}] {d}")
+            out.append(f"           ↳ Risks: {', '.join(flagged[d])}")
     
     final_report = "\n".join(out)
     print(final_report)
-    
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(final_report)
     logging.info(f"Audit Persistence Complete: {report_file}")
@@ -211,4 +231,4 @@ def analyze_traffic(csv_path: str):
         logging.error(f"Analysis pipeline failure: {e}")
 
 if __name__ == "__main__":
-    analyze_traffic("DNS_threat_hunter_test2.csv")
+    analyze_traffic("DNS_threat_hunter_test.csv")

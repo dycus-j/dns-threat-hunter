@@ -1,0 +1,30 @@
+
+
+============================================================
+🛡️  DNS THREAT HUNTER v2.2 - SCIENTIFIC ANALYSIS
+============================================================
+Audit Date:       2026-03-02 14:52:47
+Total Logs:       77,557
+Allowed Analyzed: 77,557
+Performance:      0.3586s
+------------------------------------------------------------
+
+🚨 TOP RECURRING THREAT VECTORS (patterns with 2+ hits) 🚨
+
+[Count:   20] 04f1a4119d30b5672a3e08fddd12fce4.perchance.org
+           ↳ Risks: High Entropy (4.31)
+[Count:    2] mediaproxy.tvtropes.org
+           ↳ Risks: Suspicious Keyword
+[Count:    2] a257cd3ebbfff8e014d264b056e5727d.perchance.org
+           ↳ Risks: High Entropy (4.29)
+[Count:    2] lb.eu-1-id5-sync.com
+           ↳ Risks: High Entropy (3.88)
+[Count:    2] lbs.eu-1-id5-sync.com
+           ↳ Risks: High Entropy (3.88)
+[Count:    2] blog.discoveruniversal.com
+           ↳ Risks: High Entropy (3.9)
+
+🔍 ANOMALY DETECTION (under 2 hits - 'PATIENT ZERO' EVENTS) 🔍
+
+[Count:    1] frontend-event-router-us-production.us-east-1-110009069329.prod.account.c2c.klarna.net
+           ↳ Risks: High Entropy (4.3)
