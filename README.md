@@ -53,11 +53,6 @@ python dns_threat_hunter.py
 
 Review the flagged domains in the terminal output and add them to your firewall or MDM Blacklist.
 
-👨‍💻 Author
 
-James Dycus
 
-IT Support Specialist & Network Technician
-
-LinkedIn
 

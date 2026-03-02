@@ -4,233 +4,211 @@ import time
 import logging
 import itertools
 import concurrent.futures
+from datetime import datetime
 from collections import Counter
 from pathlib import Path
-from typing import Dict, List, Iterator, Tuple
+from typing import Dict, List, Iterator, Tuple, Set
 
-# Configure basic logging for debugging and runtime info
+# Configure professional logging for execution visibility
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 # ==========================================
-# 1. CONFIGURATION & THREAT INTELLIGENCE
+# 1. CONFIGURATION & STATIC THREAT INTEL
 # ==========================================
 THREAT_INTEL = {
+    # Behavior Indicators (Checked FIRST - Overrides Allowlist)
     "keywords": {'proxy', 'unblock', 'bypass', 'games', 'mathway', 'math', 'study', 'free'},
     "cloud_hosts": {
         'vercel.app', 'netlify.app', 'onrender.com', 'herokuapp.com', 
-        'github.io', 'replit.dev', 'repl.co', 'replit.app', 'firebaseapp.com', 'web.app', 'it.com'
+        'github.io', 'replit.dev', 'repl.co', 'replit.app', 'firebaseapp.com', 'web.app', 'it.com',
+        'webnode.page', 'editmysite.com', 'trycloudflare.com'
     },
     "suspicious_tlds": {'.xyz', '.top', '.site', '.pw', '.cc', '.tk', '.ml'},
-    "whitelist_domains": {
-        'apple.com', 'icloud.com', 'aaplimg.com', 'akadns.net', 'safebrowsing.apple', 'cdn-apple.com', 'apple-dns.net', # Apple Ecosystem
-        'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', 'spov-msedge.net', 'wac-msedge.net', 'wac-dc-msedge.net', 'fb-t-msedge.net', 'skype.com', 'cloud.microsoft', 'signalr.net', # Microsoft Ecosystem
-        'google.com', 'firebaseio.com', 'googleusercontent.com', 'doodles.goog', 'gstatic.com', 'googleapis.com', 'run.app', # Google Ecosystem
-        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'amazon.dev', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'akamaihd.net', 'amazonaws.com', 'awsglobalaccelerator.com', 'fastly-edge.com', 'fastly.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', 'capcutstatic.com', 'tiktokcdn-us.com', 'tiktokpangle-b.us', 'tiktokpangle-cdn-us.com', 'b-cdn.net', 'cdn77.org', 'brightcovecdn.com', # Major CDNs, AWS, & App Gateways
-        'playwire.com', 'intergient.com', 'getepic.com', 'duolingo.com', 'prodigygame.com', 'savvasrealize.com', 'id5-sync.com', 'eu-1-id5-sync.com', 'wixmp.com', 'youversionapi.com', 'sharethrough.com', 'grafana.net', 'grafana-ops.net', 'intellimizeio.com', 'canva.com', 'canva-apps.com', 'instructure.com', 'inscloudgate.net', 'm-w.com', 'merriam-webster.com', 'perchance.org', 'editmysite.com', 'optimizely.com', 'study.com', 'theastudy.com', 'apptegy.net', 'datadoghq.com', 'indexww.com', 'permutive.app', 'optable.co', 'smaato.net', 'sendgrid.net', 'mathtag.com', 'igodigital.com', 'shazamcloud.com', 'wpeproxy.com', 's-onetag.com', 'aniview.com', 'bidswitch.net', 'qualtrics.com', 'ipredictive.com', 'openwebmp.com', 'rfihub.com', 'arcpublishing.com', 'crowdin.net', 'mktoresp.com', 'swymrelay.com', 'oath.cloud', 'ltmsphrcl.net', 'manager-magazin.de', 'tvtropes.org', # Ad/Tracker & Edu networks
-        'arpa' # Local reverse DNS noise
+    
+    # Static Allowlist (v2.0 baseline for initial push)
+    "allowlist": {
+        'apple.com', 'icloud.com', 'aaplimg.com', 'akadns.net', 'safebrowsing.apple', 'cdn-apple.com', 'apple-dns.net',
+        'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', 'spov-msedge.net', 'wac-msedge.net', 'wac-dc-msedge.net', 'fb-t-msedge.net', 'skype.com', 'cloud.microsoft', 'signalr.net',
+        'google.com', 'firebaseio.com', 'googleusercontent.com', 'doodles.goog', 'gstatic.com', 'googleapis.com', 'run.app', 
+        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'amazon.dev', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'akamaihd.net', 'amazonaws.com', 'awsglobalaccelerator.com', 'fastly-edge.com', 'fastly.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', 'capcutstatic.com', 'tiktokcdn-us.com', 'tiktokpangle-b.us', 'tiktokpangle-cdn-us.com', 'b-cdn.net', 'cdn77.org', 'brightcovecdn.com', 
+        'playwire.com', 'intergient.com', 'getepic.com', 'duolingo.com', 'prodigygame.com', 'savvasrealize.com', 'id5-sync.com', 'eu-1-id5-sync.com', 'wixmp.com', 'youversionapi.com', 'sharethrough.com', 'grafana.net', 'grafana-ops.net', 'intellimizeio.com', 'canva.com', 'canva-apps.com', 'instructure.com', 'inscloudgate.net', 'm-w.com', 'merriam-webster.com', 'perchance.org', 'editmysite.com', 'optimizely.com', 'study.com', 'theastudy.com', 'apptegy.net', 'datadoghq.com', 'browser-intake-us5-datadoghq.com', 'indexww.com', 'permutive.app', 'optable.co', 'smaato.net', 'sendgrid.net', 'mathtag.com', 'igodigital.com', 'shazamcloud.com', 'wpeproxy.com', 's-onetag.com', 'aniview.com', 'bidswitch.net', 'qualtrics.com', 'ipredictive.com', 'openwebmp.com', 'rfihub.com', 'arcpublishing.com', 'crowdin.net', 'mktoresp.com', 'swymrelay.com', 'oath.cloud', 'ltmsphrcl.net', 'manager-magazin.de', 'tvtropes.org',
+        'mathway.com', 'mathpapa.com', 'mathster.com', 'arpa' 
     }
 }
 
-CHUNK_SIZE = 10000 
-
 # ==========================================
-# 2. VENDOR DATA NORMALIZATION
+# 2. HEURISTIC DETECTION ENGINE
 # ==========================================
-def extract_standard_fields(row: Dict[str, str]) -> Tuple[str, str]:
+def is_allowed(domain: str) -> bool:
     """
-    Normalizes log structures from different vendors (Mosyle, Cisco, Pi-Hole, etc.)
-    Returns a standardized tuple: (domain, action)
+    Recursive subdomain lookup.
+    Example: If 'google.com' is in allowlist, 'api.dev.google.com' is allowed.
     """
-    domain_keys = ['domain', 'url', 'destination', 'query']
-    action_keys = ['action', 'status', 'policy', 'result']
-    
-    domain = ""
-    action = ""
+    domain = domain.rstrip('.') # Handle FQDN trailing dots
+    parts = domain.split('.')
+    # Recursively check parent domains (O(1) lookup in Set)
+    for i in range(len(parts)):
+        test_domain = ".".join(parts[i:])
+        if test_domain in THREAT_INTEL["allowlist"]:
+            return True
+    return False
 
-    for key in domain_keys:
-        if key in row:
-            domain = row[key].strip().lower()
-            break
-            
-    for key in action_keys:
-        if key in row:
-            action = row[key].strip().upper()
-            break
-            
-    return domain, action
-
-# ==========================================
-# 3. THREAT DETECTION ENGINE
-# ==========================================
 def detect_domain_risks(domain: str) -> List[str]:
-    """Analyzes a domain against static risk vectors ONLY (Fast execution)."""
-    
-    # --- 1. WHITELIST CHECK ---
-    # Strict matching to prevent badapple.com from matching apple.com
-    if any(domain == wl or domain.endswith('.' + wl) for wl in THREAT_INTEL["whitelist_domains"]):
-        return []
-
+    """
+    Priority-based Analysis (Heuristic Hierarchy):
+    1. Behavior Indicators (Keywords/Cloud Hosts)
+    2. Identity Verification (Recursive Allowlist)
+    3. Anomaly Heuristics (Entropy/TLDs)
+    """
     risks = []
-
-    # --- 2. STATIC HEURISTICS ---
-    if re.match(r'^\d{1,3}(\.\d{1,3}){3}$', domain):
-        risks.append("Direct IP Access")
-        
-    # Strict matching to prevent snapkit.com from matching it.com
-    if any(domain == host or domain.endswith('.' + host) for host in THREAT_INTEL["cloud_hosts"]):
-        risks.append("Free Cloud/Dev Host")
-        
+    
+    # 1. BEHAVIOR INDICATORS
     if any(word in domain for word in THREAT_INTEL["keywords"]):
         risks.append("Suspicious Keyword")
-        
-    if any(domain.endswith(tld) for tld in THREAT_INTEL["suspicious_tlds"]):
-        risks.append("Risky TLD")
-        
-    if domain.count('-') > 2 or sum(c.isdigit() for c in domain) > 5:
-        risks.append("High Entropy (Auto-generated)")
+    
+    # Cloud host check handles subdomains (e.g., test.replit.dev)
+    is_cloud = any(domain == host or domain.endswith('.' + host) for host in THREAT_INTEL["cloud_hosts"])
+    if is_cloud:
+        risks.append("Free Cloud/Dev Host")
+
+    # 2. ALLOWLIST GATE
+    allowed = is_allowed(domain)
+    
+    # REFINEMENT: If whitelisted, we suppress noise UNLESS it's a cloud-host.
+    if allowed and not is_cloud:
+        return []
+
+    # 3. HEURISTICS (Only for Non-Allowed or Cloud-Override traffic)
+    if not allowed:
+        if re.match(r'^\d{1,3}(\.\d{1,3}){3}$', domain):
+            risks.append("Direct IP Access")
+        if any(domain.endswith(tld) for tld in THREAT_INTEL["suspicious_tlds"]):
+            risks.append("Risky TLD")
+        # Flags auto-generated domains or long random strings
+        if domain.count('-') > 2 or sum(c.isdigit() for c in domain) > 5:
+            risks.append("High Entropy (Auto-generated)")
 
     return risks
 
 # ==========================================
-# 4. WORKER FUNCTION (Runs in Parallel)
+# 3. PARALLEL PROCESSING ENGINE
 # ==========================================
 def process_chunk(chunk: List[Dict[str, str]]) -> Tuple[int, int, int, Dict[str, List[str]], Counter]:
-    """Processes a specific chunk of rows across multiple CPU cores."""
-    local_total = 0
-    local_blocked = 0
-    local_allowed = 0
-    local_flagged: Dict[str, List[str]] = {}
-    local_counts = Counter()
+    """Worker function for concurrent processing of log chunks."""
+    l_total, l_blocked, l_allowed = 0, 0, 0
+    l_flagged: Dict[str, List[str]] = {}
+    l_counts = Counter()
 
     for row in chunk:
-        local_total += 1
-        
-        domain, action = extract_standard_fields(row)
+        l_total += 1
+        # Normalize column names
+        domain = next((row[k].strip().lower() for k in ['domain', 'url', 'destination', 'query'] if k in row), "")
+        action = next((row[k].strip().upper() for k in ['action', 'status', 'policy', 'result'] if k in row), "")
 
-        if not domain or not action:
-            continue
+        if not domain or not action: continue
 
-        # Expanded vocabulary to catch all vendor variations of blocked traffic
-        if action in ('BLOCK', 'BLOCKED', 'DENY', 'DENIED', 'DROP', 'DROPPED', 'REJECT', 'REJECTED', 'PREVENT', 'PREVENTED'):
-            local_blocked += 1
+        if any(term in action for term in ['BLOCK', 'DENY', 'DROP', 'REJECT']):
+            l_blocked += 1
+        elif any(term in action for term in ['ALLOW', 'PASS', 'PERMIT', 'SUCCESS']):
+            l_allowed += 1
             
-        # Expanded vocabulary to catch all vendor variations of allowed traffic
-        elif action in ('ALLOW', 'ALLOWED', 'PASS', 'PASSED', 'PERMIT', 'PERMITTED', 'SUCCESS'):
-            local_allowed += 1
-            
+            # Heuristic Review
             risks = detect_domain_risks(domain)
-            
             if risks:
-                local_counts[domain] += 1
-                if domain not in local_flagged:
-                    local_flagged[domain] = risks
+                l_counts[domain] += 1
+                if domain not in l_flagged: 
+                    l_flagged[domain] = risks
 
-    return local_total, local_blocked, local_allowed, local_flagged, local_counts
-
-# ==========================================
-# 5. DATA INGESTION & CHUNKING
-# ==========================================
-def yield_chunks(file_path: Path, chunk_size: int) -> Iterator[List[Dict[str, str]]]:
-    """Reads the CSV sequentially but yields it in large chunks."""
-    if not file_path.exists():
-        raise FileNotFoundError(f"Missing file: {file_path}")
-
-    with open(file_path, mode='r', encoding='utf-8-sig') as file:
-        reader = csv.DictReader(file)
-        if not reader.fieldnames:
-            raise ValueError("CSV file is empty or missing headers.")
-        
-        reader.fieldnames = [str(field).strip().lower() for field in reader.fieldnames]
-        
-        iterator = iter(reader)
-        while True:
-            chunk = list(itertools.islice(iterator, chunk_size))
-            if not chunk:
-                break
-            yield chunk
+    return l_total, l_blocked, l_allowed, l_flagged, l_counts
 
 # ==========================================
-# 6. REPORTING
+# 4. REPORTING & FILE GENERATION
 # ==========================================
-def generate_report(total: int, blocked: int, allowed: int, flagged_domains: Dict[str, List[str]], domain_counts: Counter, elapsed_time: float) -> None:
-    """Formats and prints the final analysis report."""
-    print("\n" + "="*60)
-    print(" DNS THREAT HUNTER SUMMARY ")
-    print("="*60)
-    print(f"Total Requests Processed: {total:,}")
-    print(f"Successfully Blocked:     {blocked:,}")
-    print(f"Allowed Traffic:          {allowed:,}")
-    print(f"Execution Time:           {elapsed_time:.4f} seconds")
-    print("-" * 60)
+def generate_report(total, blocked, allowed, flagged, counts, elapsed):
+    """Generates a professional TXT report and outputs a console summary."""
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+    report_file = f"threat_report_{timestamp}.txt"
     
-    print("\n🚨 FLAGGED ALLOWED TRAFFIC (REQUIRES REVIEW) 🚨")
-    print("-" * 60)
+    # Pivot: 2+ hits is a Recurring Pattern; 1 hit is Patient Zero
+    ANOMALY_THRESHOLD = 2
+
+    out = [
+        f"\n",
+        "="*60,
+        f"🛡️  DNS THREAT HUNTER v2.0 - HEURISTIC + RECURRING ANALYSIS",
+        "="*60,
+        f"Audit Date:       {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+        f"Total Logs:       {total:,}",
+        f"Allowed Analyzed: {allowed:,}",
+        f"Performance:      {elapsed:.4f}s",
+        "-" * 60,
+        f"\n🚨 TOP RECURRING THREAT VECTORS (patterns with {ANOMALY_THRESHOLD}+ hits) 🚨\n"
+    ]
     
-    if not flagged_domains:
-        print("✅ No suspicious allowed traffic found. Network is clean.")
-    else:
-        for domain, count in domain_counts.most_common():
-            if domain in flagged_domains:
-                reasons = " | ".join(flagged_domains[domain])
-                print(f"[Count: {count:4}] {domain}")
-                print(f"           ↳ Risks: {reasons}")
-    print("="*60 + "\n")
+    # Section: High Volume (established patterns)
+    recurring = [d for d, c in counts.items() if c >= ANOMALY_THRESHOLD]
+    sorted_recurring = sorted(recurring, key=lambda x: counts[x], reverse=True)
+    
+    for d in sorted_recurring[:35]:
+        out.append(f"[Count: {counts[d]:4}] {d}")
+        out.append(f"           ↳ Risks: {', '.join(flagged[d])}")
+
+    # Section: The Long Tail (Anomaly Detection)
+    out.append(f"\n🔍 ANOMALY DETECTION (under {ANOMALY_THRESHOLD} hits - 'PATIENT ZERO' EVENTS) 🔍\n")
+    anomalies = [d for d, c in counts.items() if c < ANOMALY_THRESHOLD]
+    sorted_anomalies = sorted(anomalies, key=lambda x: counts[x], reverse=True)
+    
+    for d in sorted_anomalies[:35]:
+        out.append(f"[Count: {counts[d]:4}] {d}")
+        out.append(f"           ↳ Risks: {', '.join(flagged[d])}")
+    
+    final_report = "\n".join(out)
+    print(final_report)
+    
+    with open(report_file, 'w', encoding='utf-8') as f:
+        f.write(final_report)
+    logging.info(f"Audit Persistence Complete: {report_file}")
 
 # ==========================================
-# 7. MAIN CONTROLLER
+# 5. CONTROLLER
 # ==========================================
-def analyze_traffic_parallel(csv_filepath: str) -> None:
-    path = Path(csv_filepath)
-    logging.info(f"Starting parallel network analysis on {path.name}...")
+def analyze_traffic(csv_path: str):
+    """Main controller for log analysis pipeline."""
+    path = Path(csv_path)
+    if not path.exists():
+        logging.error(f"Target log file not found: {csv_path}")
+        return
 
-    start_time = time.time() # ⏱️ START THE CLOCK
-
-    total_requests = 0
-    blocked_count = 0
-    allowed_count = 0
-    flagged_domains: Dict[str, List[str]] = {}
-    domain_counts: Counter = Counter()
+    start_time = time.time()
+    total, blocked, allowed = 0, 0, 0
+    flagged, counts = {}, Counter()
 
     try:
-        chunks = yield_chunks(path, CHUNK_SIZE)
-        
+        # Step 1: Ingest Data using Generators and itertools for memory efficiency
+        with open(path, mode='r', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f)
+            reader.fieldnames = [str(n).strip().lower() for n in reader.fieldnames]
+            iterator = iter(reader)
+            chunks = []
+            while True:
+                chunk = list(itertools.islice(iterator, 10000))
+                if not chunk: break
+                chunks.append(chunk)
+
+        # Step 2: Parallel Execution across CPU Cores
         with concurrent.futures.ProcessPoolExecutor() as executor:
             results = executor.map(process_chunk, chunks)
-            
-            for local_total, local_blocked, local_allowed, local_flagged, local_counts in results:
-                total_requests += local_total
-                blocked_count += local_blocked
-                allowed_count += local_allowed
-                domain_counts.update(local_counts)
-                
-                for dom, risks in local_flagged.items():
-                    if dom not in flagged_domains:
-                        flagged_domains[dom] = risks
+            for lt, lb, la, lf, lc in results:
+                total += lt; blocked += lb; allowed += la
+                counts.update(lc)
+                for dom, r in lf.items():
+                    if dom not in flagged: flagged[dom] = r
 
-        end_time = time.time() # ⏱️ STOP THE CLOCK
-        elapsed = end_time - start_time
-
-        generate_report(total_requests, blocked_count, allowed_count, flagged_domains, domain_counts, elapsed)
+        # Step 3: Final Reporting
+        generate_report(total, blocked, allowed, flagged, counts, time.time() - start_time)
 
     except Exception as e:
-        logging.error(f"Analysis failed during processing: {e}")
+        logging.error(f"Analysis pipeline failure: {e}")
 
-# ==========================================
-# 8. SCRIPT EXECUTION
-# ==========================================
 if __name__ == "__main__":
-    test_file = "DNS_threat_hunter_test2.csv" 
-    
-    # Generate dummy data mimicking a mix of Cisco and Mosyle formats
-    if not Path(test_file).exists():
-        with open(test_file, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            # Using 'Destination' and 'Policy' (Cisco Umbrella style)
-            writer.writerow(['Timestamp', 'Device', 'Destination', 'Policy'])
-            for i in range(10000):
-                writer.writerow(['10:00', 'Workstation-1', 'xp.itunes-apple.com.akadns.net', 'PASSED'])
-            writer.writerow(['10:01', 'Workstation-2', 'pistontomato.endis.it.com', 'PASSED'])       
-            writer.writerow(['10:02', 'Workstation-3', 'unblock-roblox.vercel.app', 'PASSED'])       
-            writer.writerow(['10:03', 'Workstation-4', 'tiktok.com', 'DENIED'])                      
-
-    analyze_traffic_parallel(test_file)
+    analyze_traffic("DNS_threat_hunter_test2.csv")
