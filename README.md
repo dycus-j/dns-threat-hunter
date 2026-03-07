@@ -1,4 +1,4 @@
-DNS Threat Hunter v3.1 (Auditor Edition) 🛡️🐍
+DNS Threat Hunter v3.1 🛡️🐍
 
 A high-performance, parallelized security automation tool designed to proactively identify evasive network threats, student-led proxy networks, "Shadow IT," and botnet beacons within enterprise DNS and firewall log exports.
 
