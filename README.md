@@ -1,63 +1,86 @@
-DNS Threat Hunter 🛡️
+DNS Threat Hunter v3.1 (Auditor Edition) 🛡️🐍
 
-A lightweight, high-performance Python threat hunting tool designed for IT Administrators and Network Defenders. This script parses massive DNS and Web Filter logs (originally designed for Mosyle MDM exports, but easily adaptable) to proactively identify network bypass attempts, web proxies, and suspicious cloud-hosted traffic.
+A high-performance, parallelized security automation tool designed to proactively identify evasive network threats, student-led proxy networks, "Shadow IT," and botnet beacons within enterprise DNS and firewall log exports.
 
-📌 The Problem
+Originally developed to secure a K-12 campus network (Parkhurst Academy), this tool specializes in identifying both widespread proxy bypass attempts and the "Long Tail" of network traffic; that is, those rare, high-entropy anomalies that standard signature-based firewalls often miss.
 
-Users frequently attempt to bypass corporate or CIPA-compliant web filters using newly generated proxy sites (e.g., CroxyProxy) or by hosting their own proxy tunnels on free developer platforms (Vercel, GitHub Pages, Render). Because these domains are constantly changing, static MDM and firewall blacklists often miss them.
 
-💡 The Solution
+📌 The Problem: "Living off the Land" & Student Evasion
 
-Instead of manually scrolling through thousands of lines of normal ecosystem traffic, this script ingests a .csv log export, filters out the noise, and runs the "Allowed" traffic against a custom Threat Intelligence engine.
+Modern evasive threats and tech-savvy students no longer rely on "known bad" domains. Instead, they utilize Living off the Land (LotL) tactics:
 
-It automatically flags domains based on:
+ - Proxy Networks:
+Hosting proxy mirrors on legitimate cloud platforms (Vercel, Replit, Cloudflare Pages) to bypass static category filters.
 
-Direct IP Access (bypassing DNS resolution).
+ - DGA Beacons:
+Using Domain Generation Algorithms (DGA) to create high-entropy subdomains for short-lived C2 communication.
 
-Risky TLDs (e.g., .xyz, .top, .tk).
+ - Identity Masquerading:
+Utilizing generic "Cloud Hosting" or "Bot" services that provide a veneer of legitimacy to slip past standard firewall rules.
 
-Developer Cloud Hosts commonly used for proxy tunneling.
 
-High Entropy URLs (auto-generated domains).
+💡 The Solution: Heuristic Auditing
 
-Suspicious Keywords.
+Instead of relying on static blacklists, DNS Threat Hunter treats security as a mathematical probability. It ingests massive .csv log exports (Meraki, Mosyle, etc.) and runs allowed traffic through a hierarchical Severity Engine.
 
-🚀 Features
+Advanced Detection Engine:
 
-Parallel Processing Engine: Utilizes Python's concurrent.futures.ProcessPoolExecutor to bypass the Global Interpreter Lock (GIL), distributing log ingestion across multiple CPU cores to evaluate multi-million row exports in seconds.
+ - Shannon Entropy Modeling: Mathematically calculates the randomness of a URL to identify machine-generated DGA domains.
 
-Memory Efficient: Uses Python Generators (yield) and itertools to process logs in manageable chunks, preventing RAM crashes on massive CSV exports.
+ - Recursive Allowlist Verification: Prevents "Subdomain Masquerading" by recursively verifying parent domain integrity.
 
-Modular Design: Built with strict Separation of Concerns (SoC). The Threat Intelligence logic, I/O ingestion, and Reporting engine are fully isolated.
+ - Behavioral Overrides: Automatically flags high-confidence keywords (e.g., proxy, unblock, pish, stay) even when hosted on "trusted" cloud infrastructure.
+   
 
-Resilient Parsing: Automatically normalizes column headers to account for vendor changes in log export formatting.
+🚀 Technical Features
 
-🗺️ Future Roadmap (v2.0)
+ - Parallel Processing:
+Leverages Python’s concurrent.futures.ProcessPoolExecutor to bypass the Global Interpreter Lock (GIL).Distributed analysis allows the tool to process 150,000+ logs in under 0.6 seconds.
 
-LLM / AI Integration: Implement a batch-processing REST API call to Google's Gemini LLM. Instead of querying the AI for every log entry, the script will bundle high-entropy/unknown domains into a single JSON payload for AI-driven heuristic analysis to catch zero-day proxy patterns.
+ - Memory Efficiency:
+Uses Python Generators (yield) and itertools to maintain a nearly flat memory footprint.
 
-Automated Threat Feeds: Integrate dynamic pulls from open-source threat intelligence feeds (e.g., AbuseIPDB) to replace the static dictionary.
+ - Risk Weighting (Severity Engine):
+Assigns cumulative scores to domains based on multiple risk vectors (e.g., Cloud Host + Risky TLD + Keyword = Critical Priority).
+
+
+📊 Professional Reporting Framework
+
+The tool generates a standardized Auditor’s Report (.txt) categorized into three tiers to separate high-volume "noise" from stealthy threats:
+
+ - 🚨 Section 1: Priority Action List:
+Critical and High-severity threats requiring immediate manual mitigation or firewall blocking.
+
+ - 📊 Section 2: Recurring Anomalies:
+The primary detection zone for student-led proxy rings and unauthorized gaming mirrors. These are medium/low-priority patterns occurring multiple times across the network.
+
+ - 🔍 Section 3: The Long Tail (Patient Zero):
+Isolated, single-hit anomalies. This is where stealthy, low-and-slow C2 beacons and one-off phish attempts are identified before they escalate.
+
 
 🛠️ Usage
 
-Export your DNS/Web Filter logs as a .csv.
+ - Export your DNS/Firewall logs as a .csv.
 
-Place the .csv in the same directory as the script (or update the file path in the __main__ block).
+ - Place the file in the project directory (default: DNS_threat_hunter_test.csv).
 
-Run the analyzer:
+ - Run the hunter:
 
-<!-- end list -->
+  > CLI: $ python dns_threat_hunter_v3.py
 
-python dns_threat_hunter.py
+ - Review the generated threat_report_[timestamp].txt for actionable intelligence.
 
 
-Review the flagged domains in the terminal output and add them to your firewall or MDM Blacklist.
+🗺️ Future Roadmap
+
+v4.0: 
+ - Integration with Cisco Meraki Dashboard API to automatically push "Critical Severity" domains directly to the firewall blocklist.
+ - API Enrichment:
+   + Dynamic threat-score enrichment via AbuseIPDB and AlienVault OTX.
 
 👨‍💻 Author
 
 James Dycus
 
-IT Support Specialist & Network Technician
-
-LinkedIn
+IT Operations & Network Engineering
 
