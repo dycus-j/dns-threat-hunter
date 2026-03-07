@@ -1,0 +1,110 @@
+
+
+==========================================================================================
+🛡️  DNS THREAT HUNTER v3.1 🛡️
+==========================================================================================
+Audit Date:       2026-03-07 15:10:57
+Total Logs:       153,106 | Allowed Analyzed: 153,106
+Performance:      0.5829s
+------------------------------------------------------------------------------------------
+
+🚨 SECTION 1: PRIORITY ACTION LIST (CRITICAL & HIGH SEVERITY) 🚨
+---------------------------------------------------------------------------
+[HIGH    ] [Hits:    3] stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    2] proxylist.geonode.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 5.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 6.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 4.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 1.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 7.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 3.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 9.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 8.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 2.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 0.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+
+📊 SECTION 2: RECURRING ANOMALIES (MEDIUM & LOW PATTERNS > 1 HIT) 📊
+---------------------------------------------------------------------------
+[LOW     ] [Hits:    8] raw.githubusercontent.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    6] 04f1a4119d30b5672a3e08fddd12fce4.perchance.org
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    6] https://app-measurement.com/sdk-exp
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] us-tuna-sounds-images.voicemod.net
+           ↳ Risks: Suspicious Pattern
+[MEDIUM  ] [Hits:    4] basketballrandom.pages.dev
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[HIGH    ] [Hits:    3] stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[LOW     ] [Hits:    2] visitor-intel.ardin-19b.workers.dev
+           ↳ Risks: High Entropy
+[HIGH    ] [Hits:    2] proxylist.geonode.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[MEDIUM  ] [Hits:    2] yandhi.herokuapp.com
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[LOW     ] [Hits:    2] static-us-east-1.similarcdn.com
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:    2] edge-microsoft-com.bx-0002.bx-msedge.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] www.shetlandminiature.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] testfamilysafety.bing.com
+           ↳ Risks: High Entropy
+
+🔍 SECTION 3: THE LONG TAIL (PATIENT ZERO - EXACTLY 1 HIT) 🔍
+---------------------------------------------------------------------------
+[HIGH    ] 9.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 8.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 7.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 6.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 5.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 4.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 3.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 2.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 1.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 0.stay.pishenormously.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[MEDIUM  ] va02.ingress.herokuapp.com
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] level2labs-prod--adm-agent-helper-log-ping.modal.run
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] jepjuszzpcebjhsvgrmt.supabase.co
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] 64345986-62434566.preview.editmysite.com
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] 142420819-645052386429616373.preview.editmysite.com
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] botsonic.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] ubg235.pages.dev
+           ↳ Risks: Free Cloud/Dev Host
+[LOW     ] www.orlandodiscountticketsusa.com
+           ↳ Risks: High Entropy
+[LOW     ] www.eatyourselfskinny.com
+           ↳ Risks: High Entropy
+[LOW     ] lb._dns-sd._udp.mynetworksettings.com
+           ↳ Risks: High Entropy
+[LOW     ] jfkrt.marphezis.com
+           ↳ Risks: High Entropy

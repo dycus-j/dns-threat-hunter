@@ -78,9 +78,7 @@ v4.0:
  - API Enrichment:
    + Dynamic threat-score enrichment via AbuseIPDB and AlienVault OTX.
 
-👨‍💻 Author
 
-James Dycus
 
 IT Operations & Network Engineering
 
