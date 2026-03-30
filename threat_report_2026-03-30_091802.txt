@@ -1,0 +1,139 @@
+
+
+==========================================================================================
+🛡️  DNS THREAT HUNTER v3.1 🛡️
+==========================================================================================
+Audit Date:       2026-03-30 09:18:02
+Total Logs:       153,397 | Allowed Analyzed: 134,734
+Performance:      0.6693s
+------------------------------------------------------------------------------------------
+
+🚨 SECTION 1: PRIORITY ACTION LIST (CRITICAL & HIGH SEVERITY) 🚨
+---------------------------------------------------------------------------
+✅ No high-priority threats identified.
+
+📊 SECTION 2: RECURRING ANOMALIES (MEDIUM & LOW PATTERNS > 1 HIT) 📊
+---------------------------------------------------------------------------
+[LOW     ] [Hits:   14] this-url-does-not-exist-13139e8e-97a7-450f-8dea-a7c16328d05b.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    6] ws8.qualified.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    5] eip-terr-na.cdp1.digicert.com.akahost.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] app106lb.client.factsmgt.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    3] embed-cloudfront.wistia.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-46116615-0a7c-4ab3-8636-fa14b240b5bb.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-f3f6a699-b2bf-47af-9d8c-6e175886cbb7.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-2666e8e9-dbfb-4716-940c-6e5bc15e9d68.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] pages.98thpercentile.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-1bf569c2-9306-4687-b6cb-44adb82a89f4.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-28f2d187-f7e1-411f-b89c-9249f831b27d.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] images.flightradar24.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] www.flightradar24.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-a07388f0-ed83-4b28-abb9-53b10e44593e.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] displayf-tm.everesttech.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] rtb-lb-event-adcloud-prod-us-west-2-tm.everesttech.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] rt3012.infolinks.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] eventer-display.bqstreamer.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] monti-config.bqstreamer.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] launcher.spot.im
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] cdcvps-cloudapps.xglb-v3.cisco.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] crs-cloudapps.xglb-v3.cisco.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] benchmarks.cdn.compute-pipe.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] benchmarks.cdn-c.compute-pipe.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] benchmarks.cdn-b.compute-pipe.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] invalid.rpki.cloudflare.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] global.discourse-cdn.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] messenger-assets.qualified.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] cdn77-image.gtflixtv.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-fa13f27e-2226-464a-b586-928eba99b5c7.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] bear-images.sfo2.cdn.digitaloceanspaces.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] configuration.speechstream.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] www.fidelitybanknc.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] gray-wcjb-prod.gtv-cdn.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-d11edfe3-7ec9-451c-a1f9-8794d50a3b28.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-213e3eca-1946-40c8-a70c-4080dda28418.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] pub-3075aea0518848a8a89083b476904693.r2.dev
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-0ef28fe1-a3d1-46eb-a0e6-948b0c5311fb.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-a0ac6430-93a6-473d-ad2f-38c7747234d2.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-8b0844f1-dbf1-43be-b61a-b5e24313cc40.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] r34i.paheal-cdn.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-8ca76abb-0430-4cd1-afd0-fa0ffa648716.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-a95b445f-a47f-4517-921e-a41d71edecb9.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] kuow-prod.imgix.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-3781fde0-aed2-455f-b664-b682332c816e.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-657abe1f-e766-43bf-8168-fd907de75a41.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-0afee98c-832f-4537-90b0-3a5b4bf966e0.invalid
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] this-url-does-not-exist-352daaf1-141f-4c72-964a-9edc222be7bd.invalid
+           ↳ Risks: High Entropy
+
+🔍 SECTION 3: THE LONG TAIL (PATIENT ZERO - EXACTLY 1 HIT) 🔍
+---------------------------------------------------------------------------
+[LOW     ] xresps-cloudapps.xglb-v3.cisco.com
+           ↳ Risks: High Entropy
+[LOW     ] this-url-does-not-exist-b77c74a2-1bfa-4a50-9f65-b2a1354af133.invalid
+           ↳ Risks: High Entropy
+[LOW     ] this-url-does-not-exist-394f0074-0599-4ce4-a938-d0a8c300dcd2.invalid
+           ↳ Risks: High Entropy
+[LOW     ] this-url-does-not-exist-26707c84-08cc-459f-ac18-80f3083683e1.invalid
+           ↳ Risks: High Entropy
+[LOW     ] this-url-does-not-exist-08211540-a8e9-4d7c-9e4e-fe095c1f489f.invalid
+           ↳ Risks: High Entropy
+[LOW     ] sync-usva.tidaltv.com
+           ↳ Risks: High Entropy
+[LOW     ] spdc-global.pbp.gysm.yahoodns.net
+           ↳ Risks: High Entropy
+[LOW     ] rgwe1rt001-0-routers.dn.apigee.net
+           ↳ Risks: High Entropy
+[LOW     ] mktcs-cloudapps.xglb-v3.cisco.com
+           ↳ Risks: High Entropy
+[LOW     ] fastly-tls12-bam.nr-data.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] app-ue1-public.fe.pardot.com
+           ↳ Risks: High Entropy
