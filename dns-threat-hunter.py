@@ -26,14 +26,21 @@ THREAT_INTEL = {
     "suspicious_tlds": {'.xyz', '.top', '.site', '.pw', '.cc', '.tk', '.ml'},
     
     "allowlist": {
-        # Core Infrastructure
+        # Core Infrastructure & Trust Verification
         'apple.com', 'icloud.com', 'aaplimg.com', 'akadns.net', 'safebrowsing.apple', 'cdn-apple.com', 'apple-dns.net', 'icloud-content.com', 'apple-mapkit.com',
         'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', 'spov-msedge.net', 'wac-msedge.net', 'wac-dc-msedge.net', 'fb-t-msedge.net', 'skype.com', 'cloud.microsoft', 'signalr.net', 'officeapps.live.com', 'msidentity.com', 'windows.net', 'microsoftonline.com', 'live.com', 'svc.ms', 'onecdn.static.microsoft', 'outlook.com', 'tm-azurefd.net', 'microsoftapp.net', 'static.microsoft', 'microsoft.org', 'msftauth.net', 'msecnd.net', 'shopifycloud.com',
         'google.com', 'google', 'firebaseio.com', 'googleusercontent.com', 'doodles.goog', 'gstatic.com', 'googleapis.com', 'run.app', 'googletagservices.com', 'google-analytics.com', 'adtrafficquality.google', 'doubleclick.net', 'googleadservices.com',
         'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'amazon.dev', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'akamaihd.net', 'amazonaws.com', 'awsglobalaccelerator.com', 'fastly-edge.com', 'fastly.net', 'edgekey.net', 'akaquill.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', 'capcutstatic.com', 'tiktokcdn-us.com', 'tiktokpangle-b.us', 'tiktokpangle-cdn-us.com', 'b-cdn.net', 'cdn77.org', 'brightcovecdn.com', 'edgesuite.net', 'cachefly.net', 'wcdnga.com', 'brightspotcdn.com', 'squarespace-cdn.com', 'cloudinary.com',
         
-        # Operational Telemetry & Infrastructure
+        # Operational Telemetry, Infrastructure & Whitelisted Vendor Probes
         'datadoghq.com', 'browser-intake-us5-datadoghq.com', 'browser-intake-datadoghq.com', 'datadoghq-browser-agent.com', 'grafana.net', 'grafana-ops.net', 'cloudflareinsights.com', 'kaltura.com', 'wixmp.com', 'app-analytics-services.com', 'shazamcloud.com', 'qualtrics.com', 'optable.co', 'permutive.app', 'id5-sync.com', 'eu-1-id5-sync.com', 'ipredictive.com', 'bidswitch.net', '3lift.com', 'pubmatic.com', 'stackadapt.com', 'sharethrough.com', 'ltmsphrcl.net', 'newscorp.com', 'omnitagjs.com', 'liveintent.com', 'kueezrtb.com', 'oath.cloud', 'yahoo.com', 'nytimes.com', 'website-files.com', 'mediakind.com', 'zohopublic.com', 'freshworks.com', 'gumroad.com', 'newrelic.com', 'liveperson.net', 'wpmudev.com', 'elasticbeanstalk.com', 'hubspot.com', 'apploversoftware.com', 'sentry.io', 'anyclip.com', 's-onetag.com', 'mediawallahscript.com', 'minutemedia-prebid.com', 'townnews.com', 'puzztake.com', 'emb-api.com', 'brightcove.net', 'dealerinspire.com', 'pubnation.com', 'hubspotusercontent-na1.net', 'klarna.net', 'heart.org', 'kwpubservices.com', 'egnyte.com', 'lightboxcdn.com', 'shemediax.com', '2mdn.net', 'qvdt3feo.com', 'stripe.com', 'impactradius-event.com', 'codecademy.com', 'instapage.com', 'ethyca.com', 'akamaitech.net', 'rigaprecast.com', 'onetrust.com', 'goodhousekeeping.com', 'permutive.com', 'awswaf.com', 'simpleanalyticscdn.com', 'canvacode.com', 'mparticle.com', 'displaynote.com', 'smithsonianmag.com', 'cdn-si-edu.com', 'thirdspacelearning.com', 'prebid.cloud', 'clipart-library.com', 'adobedc.net', 'polygonimages.com', 'ubembed.com', 'inkitt.com', 'app-measurement.com', 'optimizely.com', 'starbucks.com', 'unrulymedia.com', 'webspace-host.com', 'parastorage.com', 'hscollectedforms.net', 'wikimedia.org', 'hcaptcha.com', 'bloodhorse.com', 'convertexperiments.com', 'jwpltx.com', 'jwpsrv.com', 'sendgrid.net', 'adswizz.com', 'librarything.com', 'wgplayer.com', 'relevant-digital.com', 'manager-magazin.de', 'webnovel.com', 'privacy-center.org', 'mediamatters.org', 'medium.com', 'sharethis.com', 'newsbreak.com', 'particlenews.com', 'imyfone.com', 'mochibot.com',
+
+        # Audit Noise Reduction Additions (March 30, 2026)
+        'invalid', 'cisco.com', 'cloudflare.com', 'digicert.com', 'factsmgt.com', 
+        'qualified.com', 'wistia.com', 'digitaloceanspaces.com', 'nr-data.net', 
+        'speechstream.net', 'everesttech.net', 'bqstreamer.com', 'spot.im', 
+        'imgix.net', 'discourse-cdn.com', 'compute-pipe.com', 'gtv-cdn.com',
+        'paheal-cdn.net', 'gtflixtv.com', # Note: Included here to allow, but recommended for Meraki-level blocking
 
         # Verified Instructional Platforms
         'canva.com', 'canva-apps.com', 'instructure.com', 'inscloudgate.net', 'm-w.com', 'merriam-webster.com', 'duolingo.com', 'getepic.com', 'prodigygame.com', 'savvasrealize.com', 'apptegy.net', 'quizlet.com', 'youversionapi.com', 'biblegateway.com', 'creality.com',
@@ -268,4 +275,4 @@ def analyze_traffic(csv_path: str):
         logging.error(f"Analysis failure: {e}")
 
 if __name__ == "__main__":
-    analyze_traffic("DNS_threat_hunter_test.csv")
+    analyze_traffic("DNS_threat_hunter_test2.csv")

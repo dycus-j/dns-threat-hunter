@@ -1,0 +1,43 @@
+
+
+==========================================================================================
+🛡️  DNS THREAT HUNTER v3.1 🛡️
+==========================================================================================
+Audit Date:       2026-03-30 09:29:38
+Total Logs:       153,397 | Allowed Analyzed: 134,734
+Performance:      0.5530s
+------------------------------------------------------------------------------------------
+
+🚨 SECTION 1: PRIORITY ACTION LIST (CRITICAL & HIGH SEVERITY) 🚨
+---------------------------------------------------------------------------
+✅ No high-priority threats identified.
+
+📊 SECTION 2: RECURRING ANOMALIES (MEDIUM & LOW PATTERNS > 1 HIT) 📊
+---------------------------------------------------------------------------
+[LOW     ] [Hits:    5] eip-terr-na.cdp1.digicert.com.akahost.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] pages.98thpercentile.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] images.flightradar24.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] www.flightradar24.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] rt3012.infolinks.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] www.fidelitybanknc.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] pub-3075aea0518848a8a89083b476904693.r2.dev
+           ↳ Risks: High Entropy
+
+🔍 SECTION 3: THE LONG TAIL (PATIENT ZERO - EXACTLY 1 HIT) 🔍
+---------------------------------------------------------------------------
+[LOW     ] sync-usva.tidaltv.com
+           ↳ Risks: High Entropy
+[LOW     ] spdc-global.pbp.gysm.yahoodns.net
+           ↳ Risks: High Entropy
+[LOW     ] rgwe1rt001-0-routers.dn.apigee.net
+           ↳ Risks: High Entropy
+[LOW     ] app-ue1-public.fe.pardot.com
+           ↳ Risks: High Entropy
