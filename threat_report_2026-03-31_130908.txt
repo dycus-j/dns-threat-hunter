@@ -1,0 +1,246 @@
+
+
+==========================================================================================
+🛡️  DNS THREAT HUNTER v3.1 🛡️
+==========================================================================================
+Audit Date:       2026-03-31 13:09:08
+Total Logs:       78,513 | Allowed Analyzed: 78,513
+Performance:      0.4748s
+------------------------------------------------------------------------------------------
+
+🚨 SECTION 1: PRIORITY ACTION LIST (CRITICAL & HIGH SEVERITY) 🚨
+---------------------------------------------------------------------------
+[HIGH    ] [Hits:    2] imageproxy.us.criteo.net
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] vastproxy.ezoic.net
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] yshgsuwzj3nj.wpeproxy.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] 4ds0g4n4m4hd.wpeproxy.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+
+📊 SECTION 2: RECURRING ANOMALIES (MEDIUM & LOW PATTERNS > 1 HIT) 📊
+---------------------------------------------------------------------------
+[LOW     ] [Hits:   64] config.aps.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   55] data-ingestion.flowgpt.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   52] prod-backend-k8s.flowgpt.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   30] client.aps.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   29] vapixel.adsafeprotected.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   26] aax-events-cell01-cf.us-east.aps.axp.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   26] jsconfig.adsafeprotected.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   26] vafwlb.adsafeprotected.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   26] image-cdn.flowgpt.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   18] use-bid-openpath-1.adsrvr.org
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   16] cdn-guse1-xch.media.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   16] recsys-api.buzzfeed.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   15] jfkrt.marphezis.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   15] abeagle-public.buzzfeed.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   13] www.btd-cmh.tq-tungsten.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   12] ssbsync-global.smartadserver.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   12] e-9660-us-east-1.adzerk.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:   10] serv-us-1.onetag-sys.com
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:    9] stats.prebid.wurflcloud.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    9] dsp-cookie.adfarm1.adition.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    9] csync-global.smartadserver.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    9] sq-tungsten-ts.amazon-adsystem.com
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:    8] na-ice.360yield.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    7] aax-events-cell02-cf.us-east.3px.axp.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    7] ssbsync-use1.smartadserver.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    7] n-6-laxx.ad-m.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:    6] tvgirl.bandcamp.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    6] cdn-gusw1-xch.media.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    5] cell8001.iad.mobile.bid-na.ads.aps.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    5] us-east1.pbs.optidigital.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    5] web-banner.ads.aps.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    5] yield-op-idsync.live.streamtheworld.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    5] api16-access-ttp.tiktokpangle.us
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    5] n-1-laxx.ad-m.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:    5] 2.drug.downknottily.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] us-events.api.iheart.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] playerservices.live.streamtheworld.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] rtb-csync-use1.smartadserver.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] ox-rtb-us-east1.openx.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:    4] lf-static.tiktokpangle-cdn-us.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] cdn-geuw1-xch.media.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] n-7-laxx.ad-m.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:    4] n-2-laxx.ad-m.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] [Hits:    4] aax-events-pdns-wt.eu-west.3px.axp.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] 1.drug.downknottily.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] 6.drug.downknottily.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] 8.drug.downknottily.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] 7.drug.downknottily.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] 3.drug.downknottily.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    4] 5.drug.downknottily.com
+           ↳ Risks: High Entropy
+
+🔍 SECTION 3: THE LONG TAIL (PATIENT ZERO - EXACTLY 1 HIT) 🔍
+---------------------------------------------------------------------------
+[HIGH    ] yshgsuwzj3nj.wpeproxy.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] vastproxy.ezoic.net
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] 4ds0g4n4m4hd.wpeproxy.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[MEDIUM  ] level2labs-prod--adm-agent-helper-user-get-user.modal.run
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] level2labs-prod--adm-agent-helper-user-get-credits.modal.run
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] level2labs-prod--adm-agent-helper-user-fetch-all-documents.modal.run
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] level2labs-prod--adm-agent-helper-log-ping.modal.run
+           ↳ Risks: Free Cloud/Dev Host, High Entropy
+[MEDIUM  ] www.ictgames.org
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] imgproxy.divecdn.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] ictgames.com
+           ↳ Risks: Suspicious Keyword
+[LOW     ] www.pointpleasantbeachpolice.org
+           ↳ Risks: High Entropy
+[LOW     ] www.developgoodhabits.com
+           ↳ Risks: High Entropy
+[LOW     ] widgets.outbrainimg.com
+           ↳ Risks: High Entropy
+[LOW     ] web-banner-event-cell8005.ads.aps.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] vitals.vercel-insights.com
+           ↳ Risks: High Entropy
+[LOW     ] us-east-1-pbcache.ezoic.com
+           ↳ Risks: High Entropy
+[LOW     ] us-central1-consumer-website-238721.cloudfunctions.net
+           ↳ Risks: High Entropy
+[LOW     ] traefikaz2.psre.overdrive.com
+           ↳ Risks: High Entropy
+[LOW     ] tracking-useast.tmbid.com
+           ↳ Risks: High Entropy
+[LOW     ] tp.2632ce734-frontier.amazon-adsystem.com
+           ↳ Risks: High Entropy
+[LOW     ] td-ccm-neg-87-45.wixdns.net
+           ↳ Risks: High Entropy
+[LOW     ] staging1.delivery-projects.com
+           ↳ Risks: High Entropy
+[LOW     ] ssp.ads.betweendigital.com
+           ↳ Risks: High Entropy
+[LOW     ] smaato_sdk_remote_config\.json.sdk-files.smaato.net
+           ↳ Risks: High Entropy
+[LOW     ] skadnetworks.fyber.com
+           ↳ Risks: High Entropy
+[LOW     ] shopify-widget.route.com
+           ↳ Risks: High Entropy
+[LOW     ] segment-data-us-east.zqtk.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] restaurants.daveshotchicken.com
+           ↳ Risks: High Entropy
+[LOW     ] public-prod-dspcookiematching.dmxleo.com
+           ↳ Risks: High Entropy
+[LOW     ] privacy.gatekeeperconsent.com
+           ↳ Risks: High Entropy
+[LOW     ] pixel-580839345669.us-central1.run.app
+           ↳ Risks: High Entropy
+[LOW     ] ox-rtb-us-east4.openx.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] na.ondemand-ad-server.tritondigital.com
+           ↳ Risks: High Entropy
+[LOW     ] musiclab.chromeexperiments.com
+           ↳ Risks: High Entropy
+[LOW     ] mt-usw.appiersig.com
+           ↳ Risks: High Entropy
+[LOW     ] mir-s3-cdn-cf.behance.net
+           ↳ Risks: Suspicious Pattern
+[LOW     ] mcd-playlist.ex.co
+           ↳ Risks: High Entropy
+[LOW     ] libguides-proc.springyaws.com
+           ↳ Risks: High Entropy
+[LOW     ] lb._dns-sd._udp.mynetworksettings.com
+           ↳ Risks: High Entropy
+[LOW     ] kube-stats-prod-oh-acai-lbj-2.inbake.com
+           ↳ Risks: High Entropy
+[LOW     ] k8s-prod-azure-2.psre.overdrive.com
+           ↳ Risks: High Entropy
+[LOW     ] help.learningservicestechnology.com
+           ↳ Risks: High Entropy
+[LOW     ] healthguides.cnn.com
+           ↳ Risks: High Entropy
+[LOW     ] hblg-nv.hb.trustedstack.com
+           ↳ Risks: High Entropy
+[LOW     ] got-iad3rs0zoneb.track.smaato.net
+           ↳ Risks: High Entropy
+[LOW     ] form-assets-prod.mcf-prod.a.intuit.com
+           ↳ Risks: High Entropy
+[LOW     ] fl-familyportal.cambiumast.com
+           ↳ Risks: High Entropy
+[LOW     ] feature-flagging.deepl.com
+           ↳ Risks: High Entropy
+[LOW     ] ewr-378.ewr-rtb1.rfihub.com
+           ↳ Risks: High Entropy
+[LOW     ] digital.flytedesk.com
+           ↳ Risks: High Entropy
+[LOW     ] customer-pages-ab45.mktocloud.com
+           ↳ Risks: High Entropy
+[LOW     ] customer-8yj8uct1stfh400z.cloudflarestream.com
+           ↳ Risks: High Entropy
+[LOW     ] configure-tcp-ios.mtgglobals.com
+           ↳ Risks: High Entropy
+[LOW     ] cdn2.albumoftheyear.org
+           ↳ Risks: High Entropy
+[LOW     ] api16-access-ttp.tiktokpangle-b.us
+           ↳ Risks: High Entropy
+[LOW     ] api.iad3rs0zonea.pubnative.net
+           ↳ Risks: High Entropy
+[LOW     ] adserve-logs.engageclick.com
+           ↳ Risks: High Entropy
+[LOW     ] adserve-imp.engageclick.com
+           ↳ Risks: High Entropy
+[LOW     ] 110007393.collect.igodigital.com
+           ↳ Risks: High Entropy
+[LOW     ] 1100033371.sdk-hb.smaato.net
+           ↳ Risks: High Entropy

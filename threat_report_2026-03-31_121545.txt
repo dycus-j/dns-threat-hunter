@@ -1,0 +1,70 @@
+
+
+==========================================================================================
+🛡️  DNS THREAT HUNTER v3.1 🛡️
+==========================================================================================
+Audit Date:       2026-03-31 12:15:45
+Total Logs:       193,799 | Allowed Analyzed: 193,799
+Performance:      0.5217s
+------------------------------------------------------------------------------------------
+
+🚨 SECTION 1: PRIORITY ACTION LIST (CRITICAL & HIGH SEVERITY) 🚨
+---------------------------------------------------------------------------
+[HIGH    ] [Hits:    2] charliekirk.study.net
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] pandaproxy.production.cafemedia.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+[HIGH    ] [Hits:    1] tap-tap-shots-fire-dunk-hit.en.softonic.com
+           ↳ Risks: Suspicious Keyword, High Entropy (Score: 7)
+
+📊 SECTION 2: RECURRING ANOMALIES (MEDIUM & LOW PATTERNS > 1 HIT) 📊
+---------------------------------------------------------------------------
+[LOW     ] [Hits:   17] raw.githubusercontent.com
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:   16] https://app-measurement.com/sdk-exp
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    5] eip-terr-na.cdp1.digicert.com.akahost.net
+           ↳ Risks: High Entropy
+[MEDIUM  ] [Hits:    3] rv-assets.softonic.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] [Hits:    2] ai.ocelotbot.com
+           ↳ Risks: Suspicious Keyword
+[LOW     ] [Hits:    2] scontent-mia5-1.xx.fbcdn.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] us-central1-rocketball-23c12.cloudfunctions.net
+           ↳ Risks: High Entropy
+[LOW     ] [Hits:    2] rubick.gameanalytics.com
+           ↳ Risks: High Entropy
+[HIGH    ] [Hits:    2] charliekirk.study.net
+           ↳ Risks: Suspicious Keyword, High Entropy
+
+🔍 SECTION 3: THE LONG TAIL (PATIENT ZERO - EXACTLY 1 HIT) 🔍
+---------------------------------------------------------------------------
+[HIGH    ] tap-tap-shots-fire-dunk-hit.en.softonic.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[HIGH    ] pandaproxy.production.cafemedia.com
+           ↳ Risks: Suspicious Keyword, High Entropy
+[MEDIUM  ] www.stay22.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] wct.softonic.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] scripts.stay22.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] id.h2.stay22.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] en.softonic.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] dstudy.com
+           ↳ Risks: Suspicious Keyword
+[MEDIUM  ] rnv3.pages.dev
+           ↳ Risks: Free Cloud/Dev Host
+[LOW     ] www.nathandidthis.skyll.com
+           ↳ Risks: High Entropy
+[LOW     ] widgets.outbrainimg.com
+           ↳ Risks: High Entropy
+[LOW     ] p16-oec-general-useast5.ttcdn-us.com
+           ↳ Risks: High Entropy
+[LOW     ] p16-common-sign.tiktokcdn-us.com
+           ↳ Risks: High Entropy
+[LOW     ] dsp.outbrainimg.com
+           ↳ Risks: High Entropy

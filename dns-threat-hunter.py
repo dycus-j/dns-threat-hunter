@@ -17,34 +17,65 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 # 1. CONFIGURATION & STATIC THREAT INTEL
 # ==========================================
 THREAT_INTEL = {
-    "keywords": {'proxy', 'unblock', 'bypass', 'games', 'mathway', 'study', 'pish', 'bot', 'tunnel', 'stay'},
+    "keywords": {
+        'proxy', 'unblock', 'bypass', 'games', 'mathway', 'study', 
+        'pish', 'bot', 'tunnel', 'stay', 'softonic', 'scramjet'
+    },
     "cloud_hosts": {
         'vercel.app', 'netlify.app', 'onrender.com', 'herokuapp.com', 
-        'github.io', 'replit.dev', 'repl.co', 'replit.app', 'firebaseapp.com', 'web.app', 'it.com',
-        'webnode.page', 'editmysite.com', 'trycloudflare.com', 'webnode.com', 'pages.dev', 'supabase.co', 'modal.run'
+        'github.io', 'replit.dev', 'repl.co', 'replit.app', 'firebaseapp.com', 
+        'web.app', 'it.com', 'webnode.page', 'editmysite.com', 
+        'trycloudflare.com', 'webnode.com', 'pages.dev', 'supabase.co', 'modal.run'
     },
-    "suspicious_tlds": {'.xyz', '.top', '.site', '.pw', '.cc', '.tk', '.ml'},
+    "suspicious_tlds": {'.xyz', '.top', '.site', '.pw', '.cc', '.tk', '.ml', '.study', '.shop'},
     
     "allowlist": {
         # Core Infrastructure & Trust Verification
         'apple.com', 'icloud.com', 'aaplimg.com', 'akadns.net', 'safebrowsing.apple', 'cdn-apple.com', 'apple-dns.net', 'icloud-content.com', 'apple-mapkit.com',
         'microsoft.com', 'office.com', 'office.net', 'azure.com', 'sharepoint.com', 'msedge.net', 'azurefd.net', 'spo-msedge.net', 'ax-msedge.net', 's-msedge.net', 't-msedge.net', 'dual-s-msedge.net', 'ax-dc-msedge.net', 'dual-s-dc-msedge.net', 'azureedge.net', 'ln-msedge.net', 'ln-dc-msedge.net', 'spov-msedge.net', 'wac-msedge.net', 'wac-dc-msedge.net', 'fb-t-msedge.net', 'skype.com', 'cloud.microsoft', 'signalr.net', 'officeapps.live.com', 'msidentity.com', 'windows.net', 'microsoftonline.com', 'live.com', 'svc.ms', 'onecdn.static.microsoft', 'outlook.com', 'tm-azurefd.net', 'microsoftapp.net', 'static.microsoft', 'microsoft.org', 'msftauth.net', 'msecnd.net', 'shopifycloud.com',
-        'google.com', 'google', 'firebaseio.com', 'googleusercontent.com', 'doodles.goog', 'gstatic.com', 'googleapis.com', 'run.app', 'googletagservices.com', 'google-analytics.com', 'adtrafficquality.google', 'doubleclick.net', 'googleadservices.com',
-        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'amazon.dev', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'akamaihd.net', 'amazonaws.com', 'awsglobalaccelerator.com', 'fastly-edge.com', 'fastly.net', 'edgekey.net', 'akaquill.net', 'ccgateway.net', 'sc-gw.com', 'ibyteimg.com', 'capcutcdn-us.com', 'capcutapi.us', 'capcutstatic.com', 'tiktokcdn-us.com', 'tiktokpangle-b.us', 'tiktokpangle-cdn-us.com', 'b-cdn.net', 'cdn77.org', 'brightcovecdn.com', 'edgesuite.net', 'cachefly.net', 'wcdnga.com', 'brightspotcdn.com', 'squarespace-cdn.com', 'cloudinary.com',
+        'google.com', 'google', 'firebaseio.com', 'googleusercontent.com', 'doodles.goog', 'gstatic.com', 'googleapis.com', 'googletagservices.com', 'google-analytics.com', 'adtrafficquality.google', 'doubleclick.net', 'googleadservices.com',
+        'trafficmanager.net', 'cloudfront.net', 'ssl-images-amazon.com', 'amazon.dev', 'akamai.net', 'akamaized.net', 'akamaiedge.net', 'akamaitech.net', 'akamaihd.net', 'amazonaws.com', 'awsglobalaccelerator.com', 'fastly-edge.com', 'fastly.net', 'edgekey.net', 'akaquill.net', 'ccgateway.net', 'sc-gw.com', 'b-cdn.net', 'cdn77.org', 'brightcovecdn.com', 'edgesuite.net', 'cachefly.net', 'wcdnga.com', 'brightspotcdn.com', 'squarespace-cdn.com', 'cloudinary.com',
         
         # Operational Telemetry, Infrastructure & Whitelisted Vendor Probes
-        'datadoghq.com', 'browser-intake-us5-datadoghq.com', 'browser-intake-datadoghq.com', 'datadoghq-browser-agent.com', 'grafana.net', 'grafana-ops.net', 'cloudflareinsights.com', 'kaltura.com', 'wixmp.com', 'app-analytics-services.com', 'shazamcloud.com', 'qualtrics.com', 'optable.co', 'permutive.app', 'id5-sync.com', 'eu-1-id5-sync.com', 'ipredictive.com', 'bidswitch.net', '3lift.com', 'pubmatic.com', 'stackadapt.com', 'sharethrough.com', 'ltmsphrcl.net', 'newscorp.com', 'omnitagjs.com', 'liveintent.com', 'kueezrtb.com', 'oath.cloud', 'yahoo.com', 'nytimes.com', 'website-files.com', 'mediakind.com', 'zohopublic.com', 'freshworks.com', 'gumroad.com', 'newrelic.com', 'liveperson.net', 'wpmudev.com', 'elasticbeanstalk.com', 'hubspot.com', 'apploversoftware.com', 'sentry.io', 'anyclip.com', 's-onetag.com', 'mediawallahscript.com', 'minutemedia-prebid.com', 'townnews.com', 'puzztake.com', 'emb-api.com', 'brightcove.net', 'dealerinspire.com', 'pubnation.com', 'hubspotusercontent-na1.net', 'klarna.net', 'heart.org', 'kwpubservices.com', 'egnyte.com', 'lightboxcdn.com', 'shemediax.com', '2mdn.net', 'qvdt3feo.com', 'stripe.com', 'impactradius-event.com', 'codecademy.com', 'instapage.com', 'ethyca.com', 'akamaitech.net', 'rigaprecast.com', 'onetrust.com', 'goodhousekeeping.com', 'permutive.com', 'awswaf.com', 'simpleanalyticscdn.com', 'canvacode.com', 'mparticle.com', 'displaynote.com', 'smithsonianmag.com', 'cdn-si-edu.com', 'thirdspacelearning.com', 'prebid.cloud', 'clipart-library.com', 'adobedc.net', 'polygonimages.com', 'ubembed.com', 'inkitt.com', 'app-measurement.com', 'optimizely.com', 'starbucks.com', 'unrulymedia.com', 'webspace-host.com', 'parastorage.com', 'hscollectedforms.net', 'wikimedia.org', 'hcaptcha.com', 'bloodhorse.com', 'convertexperiments.com', 'jwpltx.com', 'jwpsrv.com', 'sendgrid.net', 'adswizz.com', 'librarything.com', 'wgplayer.com', 'relevant-digital.com', 'manager-magazin.de', 'webnovel.com', 'privacy-center.org', 'mediamatters.org', 'medium.com', 'sharethis.com', 'newsbreak.com', 'particlenews.com', 'imyfone.com', 'mochibot.com',
+        'datadoghq.com', 'browser-intake-us5-datadoghq.com', 'browser-intake-datadoghq.com', 'datadoghq-browser-agent.com', 'grafana.net', 'grafana-ops.net', 'cloudflareinsights.com', 'kaltura.com', 'wixmp.com', 'app-analytics-services.com', 'shazamcloud.com', 'qualtrics.com', 'optable.co', 'permutive.app', 'id5-sync.com', 'eu-1-id5-sync.com', 'ipredictive.com', 'bidswitch.net', '3lift.com', 'pubmatic.com', 'stackadapt.com', 'sharethrough.com', 'ltmsphrcl.net', 'newscorp.com', 'omnitagjs.com', 'liveintent.com', 'kueezrtb.com', 'oath.cloud', 'yahoo.com', 'nytimes.com', 'website-files.com', 'mediakind.com', 'zohopublic.com', 'freshworks.com', 'gumroad.com', 'newrelic.com', 'liveperson.net', 'wpmudev.com', 'elasticbeanstalk.com', 'hubspot.com', 'apploversoftware.com', 'sentry.io', 'anyclip.com', 's-onetag.com', 'mediawallahscript.com', 'minutemedia-prebid.com', 'townnews.com', 'puzztake.com', 'emb-api.com', 'brightcove.net', 'dealerinspire.com', 'pubnation.com', 'hubspotusercontent-na1.net', 'klarna.net', 'heart.org', 'kwpubservices.com', 'egnyte.com', 'lightboxcdn.com', 'shemediax.com', '2mdn.net', 'qvdt3feo.com', 'stripe.com', 'impactradius-event.com', 'codecademy.com', 'instapage.com', 'ethyca.com', 'rigaprecast.com', 'onetrust.com', 'goodhousekeeping.com', 'permutive.com', 'awswaf.com', 'simpleanalyticscdn.com', 'canvacode.com', 'mparticle.com', 'displaynote.com', 'smithsonianmag.com', 'cdn-si-edu.com', 'thirdspacelearning.com', 'prebid.cloud', 'clipart-library.com', 'adobedc.net', 'polygonimages.com', 'ubembed.com', 'inkitt.com', 'app-measurement.com', 'optimizely.com', 'starbucks.com', 'unrulymedia.com', 'webspace-host.com', 'parastorage.com', 'hscollectedforms.net', 'wikimedia.org', 'hcaptcha.com', 'bloodhorse.com', 'convertexperiments.com', 'jwpltx.com', 'jwpsrv.com', 'sendgrid.net', 'adswizz.com', 'librarything.com', 'wgplayer.com', 'relevant-digital.com', 'manager-magazin.de', 'webnovel.com', 'privacy-center.org', 'mediamatters.org', 'medium.com', 'sharethis.com', 'newsbreak.com', 'particlenews.com', 'imyfone.com', 'mochibot.com',
+        'dialpad.com', 'fyre.co', 'snigelweb.com', 'petametrics.com', 'linkby.com', 'trackonomics.net', 'zapnito.com', 'cookiebot.com',
+        'indexww.com', 'taboola.com', 'openwebmp.com', 'admixer.net', 'servenobid.com', 'futurehybrid.tech', 'khsonthespot.com',
+        'bluecava.com', 'turn.com', 'boltdns.net', 'vaultdcr.com', 'tm-awx.com', 'mantis-awx.com',
+        'prmutv.co', 'a2z.com', 'captcha-delivery.com',
 
-        # Audit Noise Reduction Additions (March 30, 2026)
+        # Audit Noise Reduction & Specific Infrastructure Additions
         'invalid', 'cisco.com', 'cloudflare.com', 'digicert.com', 'factsmgt.com', 
         'qualified.com', 'wistia.com', 'digitaloceanspaces.com', 'nr-data.net', 
         'speechstream.net', 'everesttech.net', 'bqstreamer.com', 'spot.im', 
         'imgix.net', 'discourse-cdn.com', 'compute-pipe.com', 'gtv-cdn.com',
-        'paheal-cdn.net', 'gtflixtv.com', # Note: Included here to allow, but recommended for Meraki-level blocking
+        'paheal-cdn.net', 'gtflixtv.com', # Note: Recommended for Meraki-level blocking
+        '98thpercentile.com', 'flightradar24.com', 'infolinks.com', 'r2.dev', 
+        'fidelitybanknc.com', 'tidaltv.com', 'yahoodns.net', 'apigee.net', 'pardot.com',
+        'brevardclerk.us', 'dynamics.com', 'brevardschools.org', 'lacity.gov',
+        'grammarly.com', 'architecturaldigest.com', 'birminghammail.co.uk',
+        'nationaldaycalendar.com', 'carnival.com', 'albertsons-media.com', 'headout.com', 
+        'gharpedia.com', 'californiathroughmylens.com', 'thesinkholeguy.com', 
+        'webuildright.com', 'centralamericafishing.com', 'telegraph.co.uk',
+        
+        # Suppressing infrastructure/telemetry anomalies from audits
+        'app-measurement.com', 'deutscheboersephotographyfoundation.org',
+        'mercurywork.shop', 'seznam.cz', 'htvapps.com',
+        'telegraphindia.com', 'omnichannelengagementhub.com', 'youversion.com', 'piwik.pro',
+        'pingdom.net', 'dynatrace.com', 'convertkit.com', 'improvedigital.com',
+        'creativebloq.com', 'slickstream.com', 'smushcdn.com', 'zemanta.com',
+        'mktoutil.com', 'mktoresp.com', 'stablediffusionweb.com',
+        'amazon-adsystem.com', 'adsafeprotected.com', 'adsrvr.org', 'media.net', 
+        'tq-tungsten.com', 'smartadserver.com', 'adzerk.net', 'onetag-sys.com', 
+        'wurflcloud.com', 'adition.com', '360yield.com', 'ad-m.net', 'optidigital.com', 
+        'openx.net', 'rfihub.com', 'tmbid.com', 'dmxleo.com', 'smaato.net', 
+        'fyber.com', 'pubnative.net', 'engageclick.com', 'ezoic.net', 'criteo.net',
+        'wpeproxy.com', 'ezoic.com', 'fbcdn.net',
 
-        # Verified Instructional Platforms
+        # Verified Instructional Platforms & Services (Noise Reduction)
         'canva.com', 'canva-apps.com', 'instructure.com', 'inscloudgate.net', 'm-w.com', 'merriam-webster.com', 'duolingo.com', 'getepic.com', 'prodigygame.com', 'savvasrealize.com', 'apptegy.net', 'quizlet.com', 'youversionapi.com', 'biblegateway.com', 'creality.com',
         'blooket.com', 'boddlelearning.com', 'kahoot.it', 'coursearc.com', 'wikiart.org', 'scribdassets.com', 'boddle.com', 'discoveryeducation.com', 'jostens.com', 'yearbookavenue.jostens.com', 'mathjax.org', 'mathswithdavid.com', 'math.bot', 'tvtropes.org', 'simpsonstreetfreepress.org', 'nbcnews.com', 's-nbcnews.com', 'curbsmart.net', 'princetonreview.com', 'stanford.edu', 'penguinmod.com',
+        'minecraft-services.net', 'minecrafteduservices.com', 'easternflorida.edu', 'typingclub.com', 'stthomas.edu', 'oer.hawaii.edu',
+        'ictgames.com', 'ictgames.org', 'springyaws.com', 'cambiumast.com', 'learningservicestechnology.com', 'overdrive.com', 'deepl.com',
         
         # High-Volume Ad-Tech & App Analytics
         'singular.net', 'intergient.com', 'braze.com', 'amplitude.com', 'klaviyo.com', 'playwire.com', 'a-mx.net', 'app-us1.com', 'criteo.com', 'shopifysvc.com', 'quantserve.com', 'pubmnet.com', 'outbrain.com', 'tappx.com', 'intellimizeio.com', 'app-measurement.com', 'visualwebsiteoptimizer.com', 'vidazoo.services', 'wunderkind.co', 'mathtag.com', 'contextweb.com',
